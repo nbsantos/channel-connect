@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: channel-connect-config
+  namespace: channel-connect
+data:
+  DATABASE_URL: "file:/data/dev.db"
+  SEED_DATABASE: "true"
+  NODE_ENV: "production"
+  PORT: "3000"
+  HOSTNAME: "0.0.0.0"

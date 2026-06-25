@@ -1,0 +1,225 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+enum CompanyType {
+  vendor
+  reseller
+}
+
+enum DealStatus {
+  pending
+  approved
+  declined
+}
+
+enum DealInitiator {
+  vendor
+  reseller
+}
+
+enum ContentType {
+  video
+  whitepaper
+  brief
+}
+
+enum InvoiceStatus {
+  draft
+  sent
+  paid
+}
+
+model Company {
+  id                     String      @id @default(cuid())
+  name                   String
+  type                   CompanyType
+  description            String?
+  website                String?
+  contractSignedAt       DateTime?
+  dealRegistrationFeeCents Int       @default(50000)
+  billingEmail           String?
+  createdAt              DateTime    @default(now())
+  updatedAt              DateTime    @updatedAt
+
+  users            User[]
+  customerAccounts CustomerAccount[]
+  vendorDeals      DealRegistration[] @relation("VendorCompany")
+  resellerDeals    DealRegistration[] @relation("ResellerCompany")
+  content          CompanyContent[]
+  useCases         UseCaseTag[]
+  invoices         Invoice[]
+}
+
+model User {
+  id           String   @id @default(cuid())
+  email        String   @unique
+  passwordHash String
+  name         String
+  title        String?
+  location     String?
+  photoUrl     String?
+  isCompanyAdmin Boolean @default(false)
+  companyId    String
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  company              Company              @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  assignedAccounts     CustomerAccount[]
+  initiatedDeals       DealRegistration[]   @relation("DealInitiator")
+  assignedDeals        DealRegistration[]   @relation("DealAssignee")
+  watchedAccounts      WatchedAccount[]
+  notifications        Notification[]
+  sentMessages         Message[]            @relation("MessageSender")
+  receivedMessages     Message[]            @relation("MessageRecipient")
+  sessions             Session[]
+}
+
+model Session {
+  id        String   @id @default(cuid())
+  token     String   @unique
+  userId    String
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model CustomerAccount {
+  id          String   @id @default(cuid())
+  accountName String
+  industry    String?
+  useCase     String?
+  resellerId  String
+  repId       String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  reseller Company @relation(fields: [resellerId], references: [id], onDelete: Cascade)
+  rep      User    @relation(fields: [repId], references: [id], onDelete: Cascade)
+  deals    DealRegistration[]
+  watchers WatchedAccount[]
+
+  @@index([accountName])
+  @@index([resellerId])
+}
+
+model DealRegistration {
+  id          String        @id @default(cuid())
+  title       String
+  description String
+  status      DealStatus    @default(pending)
+  initiator   DealInitiator
+  vendorId    String
+  resellerId  String
+  accountId   String?
+  initiatorId String
+  assigneeId  String
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+  resolvedAt  DateTime?
+
+  vendor    Company          @relation("VendorCompany", fields: [vendorId], references: [id])
+  reseller  Company          @relation("ResellerCompany", fields: [resellerId], references: [id])
+  account   CustomerAccount? @relation(fields: [accountId], references: [id])
+  initiatorUser User         @relation("DealInitiator", fields: [initiatorId], references: [id])
+  assigneeUser  User         @relation("DealAssignee", fields: [assigneeId], references: [id])
+  messages      Message[]
+  invoiceLineItem InvoiceLineItem?
+
+  @@index([vendorId])
+  @@index([resellerId])
+  @@index([status])
+}
+
+model Message {
+  id        String   @id @default(cuid())
+  dealId    String
+  senderId  String
+  recipientId String
+  body      String
+  createdAt DateTime @default(now())
+
+  deal      DealRegistration @relation(fields: [dealId], references: [id], onDelete: Cascade)
+  sender    User             @relation("MessageSender", fields: [senderId], references: [id])
+  recipient User             @relation("MessageRecipient", fields: [recipientId], references: [id])
+}
+
+model CompanyContent {
+  id        String      @id @default(cuid())
+  companyId String
+  type      ContentType
+  title     String
+  url       String
+  createdAt DateTime    @default(now())
+
+  company Company @relation(fields: [companyId], references: [id], onDelete: Cascade)
+}
+
+model UseCaseTag {
+  id        String @id @default(cuid())
+  companyId String
+  tag       String
+
+  company Company @relation(fields: [companyId], references: [id], onDelete: Cascade)
+
+  @@index([tag])
+}
+
+model WatchedAccount {
+  id        String   @id @default(cuid())
+  userId    String
+  accountId String
+  createdAt DateTime @default(now())
+
+  user    User            @relation(fields: [userId], references: [id], onDelete: Cascade)
+  account CustomerAccount @relation(fields: [accountId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, accountId])
+}
+
+model Notification {
+  id        String   @id @default(cuid())
+  userId    String
+  title     String
+  body      String
+  read      Boolean  @default(false)
+  createdAt DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Invoice {
+  id          String        @id @default(cuid())
+  vendorId    String
+  periodStart DateTime
+  periodEnd   DateTime
+  status      InvoiceStatus @default(draft)
+  totalCents  Int           @default(0)
+  sentAt      DateTime?
+  paidAt      DateTime?
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+
+  vendor    Company           @relation(fields: [vendorId], references: [id], onDelete: Cascade)
+  lineItems InvoiceLineItem[]
+
+  @@unique([vendorId, periodStart])
+  @@index([vendorId])
+}
+
+model InvoiceLineItem {
+  id          String   @id @default(cuid())
+  invoiceId   String
+  dealId      String   @unique
+  amountCents Int
+  createdAt   DateTime @default(now())
+
+  invoice Invoice          @relation(fields: [invoiceId], references: [id], onDelete: Cascade)
+  deal    DealRegistration @relation(fields: [dealId], references: [id], onDelete: Cascade)
+}
