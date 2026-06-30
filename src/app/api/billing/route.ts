@@ -20,9 +20,13 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: "Contract acceptance required" }, { status: 400 });
   }
 
-  const company = await signVendorContract(user.companyId, billingEmail || user.email);
-
-  return NextResponse.json({ company });
+  try {
+    const company = await signVendorContract(user.companyId, billingEmail || user.email);
+    return NextResponse.json({ company });
+  } catch (err) {
+    const message = err instanceof Error ? err.message : "Failed to sign contract";
+    return NextResponse.json({ error: message }, { status: 400 });
+  }
 }
 
 export async function GET() {

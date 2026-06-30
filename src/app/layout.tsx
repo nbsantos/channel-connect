@@ -16,12 +16,13 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "Channel Connect",
   description: "Vendor-reseller deal registration and partner discovery platform",
+  icons: { icon: "/logo.png" },
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en">
-      <body className={`${geistSans.variable} ${geistMono.variable} min-h-screen bg-slate-50 antialiased`}>
+    <html lang="en" className="dark">
+      <body className={`${geistSans.variable} ${geistMono.variable} min-h-screen bg-navy text-white antialiased`}>
         <Nav />
         <main className="mx-auto max-w-6xl px-4 py-8">{children}</main>
       </body>

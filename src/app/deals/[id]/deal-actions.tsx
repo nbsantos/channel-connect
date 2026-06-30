@@ -26,7 +26,7 @@ export function DealActions({ dealId }: { dealId: string }) {
         type="button"
         disabled={loading}
         onClick={() => resolve("approved")}
-        className="rounded-lg bg-green-600 px-4 py-2 text-sm font-medium text-white hover:bg-green-700 disabled:opacity-50"
+        className="rounded-lg bg-green-600 px-4 py-2 text-sm font-medium text-white hover:bg-green-500 disabled:opacity-50"
       >
         Approve
       </button>
@@ -34,7 +34,7 @@ export function DealActions({ dealId }: { dealId: string }) {
         type="button"
         disabled={loading}
         onClick={() => resolve("declined")}
-        className="rounded-lg bg-red-600 px-4 py-2 text-sm font-medium text-white hover:bg-red-700 disabled:opacity-50"
+        className="rounded-lg bg-red-600 px-4 py-2 text-sm font-medium text-white hover:bg-red-500 disabled:opacity-50"
       >
         Decline
       </button>

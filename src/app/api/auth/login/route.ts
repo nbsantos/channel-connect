@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import bcrypt from "bcryptjs";
 import { prisma } from "@/lib/prisma";
 import { createSession } from "@/lib/auth";
+import { homePathForUser } from "@/lib/utils";
 
 export async function POST(request: NextRequest) {
   const body = await request.json();
@@ -28,6 +29,10 @@ export async function POST(request: NextRequest) {
       name: user.name,
       email: user.email,
       companyType: user.company.type,
+      isCompanyAdmin: user.isCompanyAdmin,
     },
+    redirectTo: homePathForUser(user),
+    hasAdminAccess: user.isCompanyAdmin,
+    hasIndividualAccount: true,
   });
 }

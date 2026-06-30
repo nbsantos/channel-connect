@@ -57,21 +57,21 @@ export function DealRegisterForm({
 
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
-      {message && <p className="text-sm text-green-700">{message}</p>}
+      {message && <p className="text-sm text-green-400">{message}</p>}
       <div className="grid gap-4 sm:grid-cols-2">
         <div className="sm:col-span-2">
-          <label className="block text-sm font-medium text-slate-700">Deal title</label>
-          <input name="title" required className="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2" />
+          <label className="block text-sm font-medium text-slate-300">Deal title</label>
+          <input name="title" required className="mt-1 w-full rounded-lg border border-navy-border px-3 py-2" />
         </div>
         <div className="sm:col-span-2">
-          <label className="block text-sm font-medium text-slate-700">Description</label>
-          <textarea name="description" required rows={3} className="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2" />
+          <label className="block text-sm font-medium text-slate-300">Description</label>
+          <textarea name="description" required rows={3} className="mt-1 w-full rounded-lg border border-navy-border px-3 py-2" />
         </div>
         <div>
-          <label className="block text-sm font-medium text-slate-700">
+          <label className="block text-sm font-medium text-slate-300">
             {mode === "vendor" ? "Reseller" : "Vendor"}
           </label>
-          <select name="partnerId" defaultValue={defaultPartnerId} required className="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2">
+          <select name="partnerId" defaultValue={defaultPartnerId} required className="mt-1 w-full rounded-lg border border-navy-border px-3 py-2">
             <option value="">Select partner</option>
             {partners.map((p) => (
               <option key={p.id} value={p.id}>{p.name}</option>
@@ -85,7 +85,7 @@ export function DealRegisterForm({
           <input type="hidden" name="assigneeId" value={defaultAssigneeId} />
         )}
       </div>
-      <button type="submit" disabled={loading} className="rounded-lg bg-indigo-600 px-4 py-2 text-sm font-medium text-white hover:bg-indigo-700 disabled:opacity-50">
+      <button type="submit" disabled={loading} className="rounded-lg bg-brand px-4 py-2 text-sm font-medium text-white hover:bg-brand-light disabled:opacity-50">
         {loading ? "Registering..." : "Register deal"}
       </button>
     </form>

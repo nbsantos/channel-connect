@@ -58,20 +58,20 @@ export function ResellerAccountSearch({ resellerId, resellerName, vendorCompanyI
           value={query}
           onChange={(e) => setQuery(e.target.value)}
           placeholder="Find an account at this reseller"
-          className="min-w-[240px] flex-1 rounded-lg border border-slate-300 px-3 py-2 text-sm"
+          className="min-w-[240px] flex-1 rounded-lg border border-navy-border px-3 py-2 text-sm"
         />
-        <button type="submit" disabled={loading} className="rounded-lg bg-indigo-600 px-4 py-2 text-sm font-medium text-white hover:bg-indigo-700 disabled:opacity-50">
+        <button type="submit" disabled={loading} className="rounded-lg bg-brand px-4 py-2 text-sm font-medium text-white hover:bg-brand-light disabled:opacity-50">
           {loading ? "Searching..." : "Search"}
         </button>
       </form>
 
       {results.length > 0 && !selected && (
-        <ul className="divide-y divide-slate-100 rounded-lg border border-slate-200">
+        <ul className="divide-y divide-slate-800 rounded-lg border border-navy-border">
           {results.map((r) => (
             <li key={r.accountId} className="flex items-center justify-between p-4">
               <div>
-                <p className="font-medium text-slate-900">{r.accountName}</p>
-                <p className="text-sm text-slate-600">
+                <p className="font-medium text-slate-100">{r.accountName}</p>
+                <p className="text-sm text-slate-400">
                   Rep: {r.rep.name}{r.rep.title ? ` · ${r.rep.title}` : ""}
                 </p>
                 {r.useCase && <p className="text-xs text-slate-500">{r.useCase}</p>}
@@ -79,7 +79,7 @@ export function ResellerAccountSearch({ resellerId, resellerName, vendorCompanyI
               <button
                 type="button"
                 onClick={() => setSelected({ accountId: r.accountId, accountName: r.accountName, repId: r.rep.id, repName: r.rep.name })}
-                className="rounded-md bg-indigo-50 px-3 py-1.5 text-sm text-indigo-700 hover:bg-indigo-100"
+                className="rounded-md bg-brand-surface px-3 py-1.5 text-sm text-brand-light hover:bg-brand-dark"
               >
                 Select
               </button>
@@ -89,12 +89,12 @@ export function ResellerAccountSearch({ resellerId, resellerName, vendorCompanyI
       )}
 
       {selected && (
-        <div className="rounded-lg border border-indigo-200 bg-indigo-50 p-4">
-          <p className="text-sm font-medium text-indigo-900">
+        <div className="rounded-lg border border-brand-dark bg-brand-surface p-4">
+          <p className="text-sm font-medium text-brand-light">
             Selected: {selected.accountName} at {resellerName}
           </p>
-          <p className="text-sm text-indigo-700">Rep: {selected.repName}</p>
-          <button type="button" onClick={() => setSelected(null)} className="mt-2 text-xs text-indigo-600 hover:underline">
+          <p className="text-sm text-brand-light">Rep: {selected.repName}</p>
+          <button type="button" onClick={() => setSelected(null)} className="mt-2 text-xs text-brand-light hover:underline">
             Change selection
           </button>
         </div>

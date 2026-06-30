@@ -6,6 +6,7 @@ const prisma = new PrismaClient();
 async function main() {
   await prisma.invoiceLineItem.deleteMany();
   await prisma.invoice.deleteMany();
+  await prisma.partnership.deleteMany();
   await prisma.message.deleteMany();
   await prisma.notification.deleteMany();
   await prisma.watchedAccount.deleteMany();
@@ -13,11 +14,13 @@ async function main() {
   await prisma.customerAccount.deleteMany();
   await prisma.companyContent.deleteMany();
   await prisma.useCaseTag.deleteMany();
+  await prisma.companyDomain.deleteMany();
   await prisma.session.deleteMany();
   await prisma.user.deleteMany();
   await prisma.company.deleteMany();
 
   const passwordHash = await bcrypt.hash("password123", 10);
+  const linkedInUrl = "https://www.linkedin.com/in/example";
 
   const ionix = await prisma.company.create({
     data: {
@@ -25,8 +28,13 @@ async function main() {
       type: CompanyType.vendor,
       description: "Cloud security and compliance platform for enterprise workloads.",
       website: "https://ionix.io",
+      linkedInUrl,
+      linkedInVerified: true,
+      inSecuritySpace: true,
+      annualFeePaidAt: new Date(),
       contractSignedAt: new Date(),
       billingEmail: "vendor@ionix.io",
+      domains: { create: { domain: "ionix.io" } },
       useCases: {
         create: [
           { tag: "cloud security" },
@@ -49,6 +57,19 @@ async function main() {
       type: CompanyType.reseller,
       description: "Global technology reseller and solutions provider.",
       website: "https://guidepoint.com",
+      linkedInUrl,
+      linkedInVerified: true,
+      domains: { create: { domain: "guidepoint.com" } },
+    },
+  });
+
+  await prisma.partnership.create({
+    data: {
+      vendorId: ionix.id,
+      resellerId: guidepoint.id,
+      status: "approved",
+      requestedBy: "vendor",
+      signedAt: new Date(),
     },
   });
 
@@ -59,6 +80,8 @@ async function main() {
       name: "Nelson Santos",
       title: "Channel Manager",
       location: "New York, NY",
+      linkedInUrl,
+      linkedInVerified: true,
       isCompanyAdmin: true,
       companyId: ionix.id,
     },
@@ -71,6 +94,8 @@ async function main() {
       name: "Alex Morgan",
       title: "Strategic Alliance Lead",
       location: "Boston, MA",
+      linkedInUrl,
+      linkedInVerified: true,
       isCompanyAdmin: true,
       companyId: guidepoint.id,
     },
@@ -83,6 +108,8 @@ async function main() {
       name: "Jordan Lee",
       title: "Account Executive",
       location: "Chicago, IL",
+      linkedInUrl,
+      linkedInVerified: true,
       isCompanyAdmin: false,
       companyId: guidepoint.id,
     },
@@ -144,6 +171,7 @@ async function main() {
   console.log("Vendor login: vendor@ionix.io / password123");
   console.log("Reseller admin: admin@guidepoint.com / password123");
   console.log("Reseller rep: rep@guidepoint.com / password123");
+  console.log("Individual (no company): use register with a work email whose domain is not ionix.io or guidepoint.com");
 }
 
 main()

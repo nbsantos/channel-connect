@@ -26,21 +26,21 @@ export default async function VendorBillingPage() {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-2xl font-bold text-slate-900">Billing</h1>
-        <p className="mt-1 text-sm text-slate-600">
+        <h1 className="text-2xl font-bold text-slate-100">Billing</h1>
+        <p className="mt-1 text-sm text-slate-400">
           {formatCents(user.company.dealRegistrationFeeCents)} per approved vendor-initiated registration · invoiced monthly
         </p>
       </div>
 
       {!user.company.contractSignedAt ? (
         <Card title="Contract required">
-          <p className="text-sm text-slate-600">
-            <Link href="/vendor/onboarding" className="text-indigo-600 hover:underline">Sign the vendor agreement</Link> to register deals.
+          <p className="text-sm text-slate-400">
+            <Link href="/vendor/onboarding" className="text-brand-light hover:underline">Sign the vendor agreement</Link> to register deals.
           </p>
         </Card>
       ) : (
         <Card title="Contract">
-          <p className="text-sm text-slate-600">
+          <p className="text-sm text-slate-400">
             Signed {user.company.contractSignedAt.toLocaleDateString()}
             {user.company.billingEmail ? ` · Billing: ${user.company.billingEmail}` : ""}
           </p>
@@ -53,27 +53,27 @@ export default async function VendorBillingPage() {
         ) : (
           <ul className="space-y-6">
             {invoices.map((invoice) => (
-              <li key={invoice.id} className="rounded-lg border border-slate-200 p-4">
+              <li key={invoice.id} className="rounded-lg border border-navy-border p-4">
                 <div className="flex items-center justify-between">
                   <div>
-                    <p className="font-medium text-slate-900">
+                    <p className="font-medium text-slate-100">
                       {invoice.periodStart.toLocaleDateString("en-US", { month: "long", year: "numeric" })}
                     </p>
                     <p className="text-sm text-slate-500">{invoice.lineItems.length} approved registration(s)</p>
                   </div>
                   <div className="text-right">
-                    <p className="font-semibold text-slate-900">{formatCents(invoice.totalCents)}</p>
+                    <p className="font-semibold text-slate-100">{formatCents(invoice.totalCents)}</p>
                     <Badge variant={invoice.status === "paid" ? "success" : invoice.status === "sent" ? "warning" : "default"}>
                       {invoice.status}
                     </Badge>
                   </div>
                 </div>
                 {invoice.lineItems.length > 0 && (
-                  <ul className="mt-4 divide-y divide-slate-100 border-t border-slate-100 pt-3">
+                  <ul className="mt-4 divide-y divide-slate-800 border-t border-slate-800 pt-3">
                     {invoice.lineItems.map((item) => (
                       <li key={item.id} className="flex justify-between py-2 text-sm">
                         <span>
-                          <Link href={`/deals/${item.dealId}`} className="text-indigo-600 hover:underline">
+                          <Link href={`/deals/${item.dealId}`} className="text-brand-light hover:underline">
                             {item.deal.title}
                           </Link>
                           <span className="text-slate-500"> · {item.deal.reseller.name}</span>

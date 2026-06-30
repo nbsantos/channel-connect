@@ -1,6 +1,7 @@
 import { prisma } from "./prisma";
 
 export const DEFAULT_DEAL_FEE_CENTS = 50000;
+export const VENDOR_ANNUAL_FEE_CENTS = 500000;
 
 export function formatCents(cents: number) {
   return new Intl.NumberFormat("en-US", { style: "currency", currency: "USD" }).format(cents / 100);
@@ -61,7 +62,22 @@ export async function recordBillableDeal(dealId: string) {
   return lineItem;
 }
 
+export async function payVendorAnnualFee(vendorId: string, billingEmail?: string) {
+  return prisma.company.update({
+    where: { id: vendorId },
+    data: {
+      annualFeePaidAt: new Date(),
+      billingEmail: billingEmail || undefined,
+    },
+  });
+}
+
 export async function signVendorContract(vendorId: string, billingEmail?: string) {
+  const company = await prisma.company.findUnique({ where: { id: vendorId } });
+  if (!company?.annualFeePaidAt) {
+    throw new Error("Annual vendor fee must be paid before signing the deal registration agreement");
+  }
+
   return prisma.company.update({
     where: { id: vendorId },
     data: {

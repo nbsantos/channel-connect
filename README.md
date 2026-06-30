@@ -61,8 +61,11 @@ Open http://localhost:3000
 Requires Docker, kubectl, and a local cluster (Docker Desktop Kubernetes, kind, or minikube).
 
 ```bash
-# One-shot deploy (build image, load into kind/minikube if detected, apply manifests)
+# Rebuilds image, tags with git SHA, restarts pods (picks up UI/theme changes)
 ./scripts/k8s-deploy.sh
+
+# Force a clean Docker build if styles still look stale
+NO_CACHE=1 ./scripts/k8s-deploy.sh
 ```
 
 Or step by step:
@@ -77,6 +80,8 @@ kind load docker-image channel-connect:local
 minikube image load channel-connect:local
 
 kubectl apply -k k8s/
+kubectl set image deployment/channel-connect channel-connect=channel-connect:local -n channel-connect
+kubectl rollout restart deployment/channel-connect -n channel-connect
 kubectl rollout status deployment/channel-connect -n channel-connect
 ```
 

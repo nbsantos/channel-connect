@@ -1,8 +1,27 @@
 @import "tailwindcss";
 
+@theme {
+  --color-brand: #0033cc;
+  --color-brand-light: #4d7cff;
+  --color-brand-dark: #002699;
+  --color-brand-surface: #0d1f4d;
+  --color-navy: #0a1020;
+  --color-navy-elevated: #111b33;
+  --color-navy-border: #1e3a6e;
+}
+
 :root {
-  --background: #f8fafc;
-  --foreground: #0f172a;
+  color-scheme: dark;
+  --background: #0a1020;
+  --foreground: #ffffff;
+  --surface: #111b33;
+  --surface-elevated: #152040;
+  --border: #1e3a6e;
+  --border-subtle: #152040;
+  --muted: #94a3b8;
+  --accent: #4d7cff;
+  --accent-hover: #80a3ff;
+  --brand: #0033cc;
 }
 
 body {
@@ -16,4 +35,30 @@ textarea,
 select,
 button {
   font: inherit;
+}
+
+input:not([type="checkbox"]):not([type="radio"]),
+textarea,
+select {
+  background-color: var(--surface-elevated);
+  border-color: var(--border);
+  color: var(--foreground);
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: #64748b;
+}
+
+select option {
+  background-color: #152040;
+  color: #ffffff;
+}
+
+a {
+  color: var(--accent);
+}
+
+a:hover {
+  color: var(--accent-hover);
 }

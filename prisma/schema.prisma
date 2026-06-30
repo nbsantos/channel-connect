@@ -10,6 +10,13 @@ datasource db {
 enum CompanyType {
   vendor
   reseller
+  individual
+}
+
+enum PartnershipStatus {
+  pending
+  approved
+  declined
 }
 
 enum DealStatus {
@@ -36,38 +43,78 @@ enum InvoiceStatus {
 }
 
 model Company {
-  id                     String      @id @default(cuid())
-  name                   String
-  type                   CompanyType
-  description            String?
-  website                String?
-  contractSignedAt       DateTime?
-  dealRegistrationFeeCents Int       @default(50000)
-  billingEmail           String?
-  createdAt              DateTime    @default(now())
-  updatedAt              DateTime    @updatedAt
+  id                       String      @id @default(cuid())
+  name                     String
+  type                     CompanyType
+  description              String?
+  website                  String?
+  logoUrl                  String?
+  linkedInUrl              String?
+  linkedInVerified         Boolean     @default(false)
+  inSecuritySpace          Boolean     @default(false)
+  contractSignedAt         DateTime?
+  annualFeePaidAt          DateTime?
+  annualFeeCents           Int         @default(500000)
+  dealRegistrationFeeCents Int         @default(50000)
+  billingEmail             String?
+  createdAt                DateTime    @default(now())
+  updatedAt                DateTime    @updatedAt
 
   users            User[]
+  domains          CompanyDomain[]
   customerAccounts CustomerAccount[]
   vendorDeals      DealRegistration[] @relation("VendorCompany")
   resellerDeals    DealRegistration[] @relation("ResellerCompany")
   content          CompanyContent[]
   useCases         UseCaseTag[]
   invoices         Invoice[]
+  vendorPartnerships   Partnership[] @relation("VendorPartnership")
+  resellerPartnerships Partnership[] @relation("ResellerPartnership")
+}
+
+model CompanyDomain {
+  id        String   @id @default(cuid())
+  companyId String
+  domain    String   @unique
+  createdAt DateTime @default(now())
+
+  company Company @relation(fields: [companyId], references: [id], onDelete: Cascade)
+
+  @@index([companyId])
+}
+
+model Partnership {
+  id          String            @id @default(cuid())
+  vendorId    String
+  resellerId  String
+  status      PartnershipStatus @default(pending)
+  requestedBy DealInitiator
+  signedAt    DateTime?
+  createdAt   DateTime          @default(now())
+  updatedAt   DateTime          @updatedAt
+
+  vendor   Company @relation("VendorPartnership", fields: [vendorId], references: [id], onDelete: Cascade)
+  reseller Company @relation("ResellerPartnership", fields: [resellerId], references: [id], onDelete: Cascade)
+
+  @@unique([vendorId, resellerId])
+  @@index([vendorId])
+  @@index([resellerId])
 }
 
 model User {
-  id           String   @id @default(cuid())
-  email        String   @unique
-  passwordHash String
-  name         String
-  title        String?
-  location     String?
-  photoUrl     String?
-  isCompanyAdmin Boolean @default(false)
-  companyId    String
-  createdAt    DateTime @default(now())
-  updatedAt    DateTime @updatedAt
+  id               String   @id @default(cuid())
+  email            String   @unique
+  passwordHash     String
+  name             String
+  title            String?
+  location         String?
+  photoUrl         String?
+  linkedInUrl      String?
+  linkedInVerified Boolean  @default(false)
+  isCompanyAdmin   Boolean  @default(false)
+  companyId        String
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
 
   company              Company              @relation(fields: [companyId], references: [id], onDelete: Cascade)
   assignedAccounts     CustomerAccount[]

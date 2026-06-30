@@ -55,8 +55,8 @@ export default function SearchPage() {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-2xl font-bold text-slate-900">AI Search</h1>
-        <p className="mt-1 text-sm text-slate-600">
+        <h1 className="text-2xl font-bold text-slate-100">AI Search</h1>
+        <p className="mt-1 text-sm text-slate-400">
           Search by customer name, use case, or vendor capability. Modular AI layer for partner discovery and rep matching.
         </p>
       </div>
@@ -65,7 +65,7 @@ export default function SearchPage() {
         <select
           value={searchType}
           onChange={(e) => setSearchType(e.target.value)}
-          className="rounded-lg border border-slate-300 px-3 py-2 text-sm"
+          className="rounded-lg border border-navy-border px-3 py-2 text-sm"
         >
           <option value="accounts">Account / use case search</option>
           <option value="vendors">Vendor by use case</option>
@@ -81,25 +81,25 @@ export default function SearchPage() {
                 ? "Account name"
                 : "Customer or use case"
           }
-          className="min-w-[280px] flex-1 rounded-lg border border-slate-300 px-3 py-2 text-sm"
+          className="min-w-[280px] flex-1 rounded-lg border border-navy-border px-3 py-2 text-sm"
         />
-        <button type="submit" disabled={loading} className="rounded-lg bg-indigo-600 px-4 py-2 text-sm font-medium text-white hover:bg-indigo-700 disabled:opacity-50">
+        <button type="submit" disabled={loading} className="rounded-lg bg-brand px-4 py-2 text-sm font-medium text-white hover:bg-brand-light disabled:opacity-50">
           {loading ? "Searching..." : "Search"}
         </button>
       </form>
 
       {accounts.length > 0 && (
-        <section className="rounded-xl border border-slate-200 bg-white p-6">
-          <h2 className="font-semibold text-slate-900">Matching accounts</h2>
-          <ul className="mt-4 divide-y divide-slate-100">
+        <section className="rounded-xl border border-navy-border bg-navy-elevated p-6">
+          <h2 className="font-semibold text-slate-100">Matching accounts</h2>
+          <ul className="mt-4 divide-y divide-slate-800">
             {accounts.map((a) => (
               <li key={a.accountId} className="flex items-start justify-between py-3">
                 <div>
                   <p className="font-medium">{a.accountName}</p>
                   <p className="text-sm text-slate-500">{a.reseller.name} · Rep: {a.rep.name}</p>
-                  <p className="text-xs text-indigo-600">{a.matchReason}</p>
+                  <p className="text-xs text-brand-light">{a.matchReason}</p>
                 </div>
-                <button type="button" onClick={() => watchAccount(a.accountId)} className="text-xs text-slate-600 hover:text-indigo-600">
+                <button type="button" onClick={() => watchAccount(a.accountId)} className="text-xs text-slate-400 hover:text-brand-light">
                   Watch
                 </button>
               </li>
@@ -109,15 +109,15 @@ export default function SearchPage() {
       )}
 
       {vendors.length > 0 && (
-        <section className="rounded-xl border border-slate-200 bg-white p-6">
-          <h2 className="font-semibold text-slate-900">Matching vendors</h2>
-          <ul className="mt-4 divide-y divide-slate-100">
+        <section className="rounded-xl border border-navy-border bg-navy-elevated p-6">
+          <h2 className="font-semibold text-slate-100">Matching vendors</h2>
+          <ul className="mt-4 divide-y divide-slate-800">
             {vendors.map((v) => (
               <li key={v.vendor.id} className="py-3">
-                <Link href={`/company/${v.vendor.id}`} className="font-medium text-indigo-600 hover:underline">
+                <Link href={`/company/${v.vendor.id}`} className="font-medium text-brand-light hover:underline">
                   {v.vendor.name}
                 </Link>
-                {v.vendor.description && <p className="text-sm text-slate-600">{v.vendor.description}</p>}
+                {v.vendor.description && <p className="text-sm text-slate-400">{v.vendor.description}</p>}
                 {v.vendor.useCases.length > 0 && (
                   <p className="mt-1 text-xs text-slate-500">Use cases: {v.vendor.useCases.join(", ")}</p>
                 )}
@@ -129,10 +129,10 @@ export default function SearchPage() {
       )}
 
       {repMatch && (
-        <section className="rounded-xl border border-slate-200 bg-white p-6">
-          <h2 className="font-semibold text-slate-900">Rep match</h2>
+        <section className="rounded-xl border border-navy-border bg-navy-elevated p-6">
+          <h2 className="font-semibold text-slate-100">Rep match</h2>
           <p className="mt-2 font-medium">{repMatch.accountName}</p>
-          <p className="text-sm text-slate-600">{repMatch.reseller.name}</p>
+          <p className="text-sm text-slate-400">{repMatch.reseller.name}</p>
           <p className="mt-1 text-sm">Rep: {repMatch.rep.name} · {repMatch.rep.email}</p>
         </section>
       )}

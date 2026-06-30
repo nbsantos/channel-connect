@@ -6,6 +6,7 @@ import { companyTypeLabel } from "@/lib/utils";
 import { CompanyContentForm } from "./content-form";
 import { CompanyEditForm } from "./edit-form";
 import { TeamInviteForm } from "./team-invite-form";
+import { DomainManageForm } from "./domain-manage-form";
 
 export default async function CompanyPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
@@ -18,6 +19,7 @@ export default async function CompanyPage({ params }: { params: Promise<{ id: st
       users: { select: { id: true, name: true, title: true, email: true, isCompanyAdmin: true } },
       content: { orderBy: { createdAt: "desc" } },
       useCases: true,
+      domains: { orderBy: { domain: "asc" } },
     },
   });
 
@@ -30,15 +32,24 @@ export default async function CompanyPage({ params }: { params: Promise<{ id: st
       <div className="flex items-start justify-between">
         <div>
           <Badge>{companyTypeLabel(company.type)}</Badge>
-          <h1 className="mt-2 text-2xl font-bold text-slate-900">{company.name}</h1>
-          {company.description && <p className="mt-2 text-slate-600">{company.description}</p>}
+          <h1 className="mt-2 text-2xl font-bold text-slate-100">{company.name}</h1>
+          {company.description && <p className="mt-2 text-slate-400">{company.description}</p>}
           {company.website && (
-            <a href={company.website} target="_blank" rel="noreferrer" className="mt-1 inline-block text-sm text-indigo-600 hover:underline">
+            <a href={company.website} target="_blank" rel="noreferrer" className="mt-1 inline-block text-sm text-brand-light hover:underline">
               {company.website}
             </a>
           )}
+          {company.linkedInVerified && (
+            <p className="mt-1 text-xs text-emerald-400">LinkedIn verified</p>
+          )}
         </div>
       </div>
+
+      {isAdmin && company.type !== "individual" && (
+        <Card title="Authorized email domains">
+          <DomainManageForm companyId={company.id} initialDomains={company.domains} />
+        </Card>
+      )}
 
       {isAdmin && (
         <Card title="Edit company profile">
@@ -54,11 +65,11 @@ export default async function CompanyPage({ params }: { params: Promise<{ id: st
       )}
 
       <Card title="Team members">
-        <ul className="divide-y divide-slate-100">
+        <ul className="divide-y divide-slate-800">
           {company.users.map((u) => (
             <li key={u.id} className="flex items-center justify-between py-3">
               <div>
-                <p className="font-medium text-slate-900">{u.name}</p>
+                <p className="font-medium text-slate-100">{u.name}</p>
                 <p className="text-sm text-slate-500">{u.title ?? u.email}</p>
               </div>
               {u.isCompanyAdmin && <Badge>Admin</Badge>}
@@ -79,12 +90,12 @@ export default async function CompanyPage({ params }: { params: Promise<{ id: st
             {company.content.length === 0 ? (
               <p className="text-sm text-slate-500">No content published yet.</p>
             ) : (
-              <ul className="divide-y divide-slate-100">
+              <ul className="divide-y divide-slate-800">
                 {company.content.map((c) => (
                   <li key={c.id} className="py-3">
                     <div className="flex items-center gap-2">
                       <Badge>{c.type}</Badge>
-                      <a href={c.url} target="_blank" rel="noreferrer" className="font-medium text-indigo-600 hover:underline">
+                      <a href={c.url} target="_blank" rel="noreferrer" className="font-medium text-brand-light hover:underline">
                         {c.title}
                       </a>
                     </div>

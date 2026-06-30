@@ -2,9 +2,9 @@
 
 import { FormEvent, useState } from "react";
 import { useRouter } from "next/navigation";
-import { formatCents } from "@/lib/billing";
+import { formatCents, VENDOR_ANNUAL_FEE_CENTS } from "@/lib/billing";
 
-export function ContractForm({ feeCents, defaultEmail }: { feeCents: number; defaultEmail: string }) {
+export function AnnualFeeForm({ defaultEmail }: { defaultEmail: string }) {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
@@ -15,7 +15,7 @@ export function ContractForm({ feeCents, defaultEmail }: { feeCents: number; def
     setError("");
 
     const form = new FormData(e.currentTarget);
-    const res = await fetch("/api/billing", {
+    const res = await fetch("/api/billing/annual", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -26,12 +26,11 @@ export function ContractForm({ feeCents, defaultEmail }: { feeCents: number; def
 
     const data = await res.json();
     if (!res.ok) {
-      setError(data.error || "Failed to sign contract");
+      setError(data.error || "Payment failed");
       setLoading(false);
       return;
     }
 
-    router.push("/vendor");
     router.refresh();
   }
 
@@ -39,13 +38,9 @@ export function ContractForm({ feeCents, defaultEmail }: { feeCents: number; def
     <form onSubmit={handleSubmit} className="space-y-4">
       {error && <p className="rounded-md bg-red-950/60 p-3 text-sm text-red-300">{error}</p>}
       <div className="rounded-lg border border-navy-border bg-navy-elevated p-4 text-sm text-slate-300">
-        <p className="font-medium text-slate-100">Deal registration agreement</p>
-        <ul className="mt-2 list-inside list-disc space-y-1">
-          <li>{formatCents(feeCents)} per approved deal registration generated through Channel Connect</li>
-          <li>Invoiced monthly based on approved registrations</li>
-          <li>Annual vendor membership ($5,000/year) must be active</li>
-          <li>Reseller-side usage remains free</li>
-        </ul>
+        <p className="font-medium text-slate-100">Annual vendor membership</p>
+        <p className="mt-2">{formatCents(VENDOR_ANNUAL_FEE_CENTS)} per year to list your company as a vendor on Channel Connect.</p>
+        <p className="mt-2 text-slate-400">After payment, sign the deal registration agreement ({formatCents(50000)} per approved deal).</p>
       </div>
       <div>
         <label className="block text-sm font-medium text-slate-300">Billing email</label>
@@ -53,10 +48,10 @@ export function ContractForm({ feeCents, defaultEmail }: { feeCents: number; def
       </div>
       <label className="flex items-start gap-2 text-sm text-slate-300">
         <input name="accepted" type="checkbox" required className="mt-1" />
-        <span>I agree to the vendor terms and authorize monthly invoicing for approved deal registrations.</span>
+        <span>I authorize the annual vendor membership charge (demo: recorded immediately).</span>
       </label>
       <button type="submit" disabled={loading} className="rounded-lg bg-brand px-4 py-2 text-sm font-medium text-white hover:bg-brand-light disabled:opacity-50">
-        {loading ? "Signing..." : "Sign vendor agreement"}
+        {loading ? "Processing..." : `Pay ${formatCents(VENDOR_ANNUAL_FEE_CENTS)} annual fee`}
       </button>
     </form>
   );

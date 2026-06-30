@@ -1,7 +1,21 @@
 import { CompanyType } from "@prisma/client";
 
 export function homePathForCompanyType(type: CompanyType) {
-  return type === "vendor" ? "/vendor" : "/reseller";
+  if (type === "vendor") return "/vendor";
+  if (type === "reseller") return "/reseller";
+  return "/home";
+}
+
+export function homePathForUser(user: {
+  company: { type: CompanyType; contractSignedAt: Date | null; annualFeePaidAt: Date | null };
+  isCompanyAdmin: boolean;
+}) {
+  if (user.company.type === "vendor" && user.isCompanyAdmin) {
+    if (!user.company.annualFeePaidAt || !user.company.contractSignedAt) {
+      return "/vendor/onboarding";
+    }
+  }
+  return homePathForCompanyType(user.company.type);
 }
 
 export function formatDealStatus(status: string) {
@@ -9,5 +23,7 @@ export function formatDealStatus(status: string) {
 }
 
 export function companyTypeLabel(type: CompanyType) {
-  return type === "vendor" ? "Vendor" : "Reseller";
+  if (type === "vendor") return "Vendor";
+  if (type === "reseller") return "Reseller";
+  return "Individual";
 }

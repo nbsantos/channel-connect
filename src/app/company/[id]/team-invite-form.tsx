@@ -41,31 +41,31 @@ export function TeamInviteForm({ companyId }: { companyId: string }) {
 
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
-      {message && <p className="text-sm text-green-700">{message}</p>}
-      {error && <p className="text-sm text-red-700">{error}</p>}
+      {message && <p className="text-sm text-green-400">{message}</p>}
+      {error && <p className="text-sm text-red-300">{error}</p>}
       <div className="grid gap-4 sm:grid-cols-2">
         <div>
-          <label className="block text-sm font-medium text-slate-700">Name</label>
-          <input name="name" required className="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2" />
+          <label className="block text-sm font-medium text-slate-300">Name</label>
+          <input name="name" required className="mt-1 w-full rounded-lg border border-navy-border px-3 py-2" />
         </div>
         <div>
-          <label className="block text-sm font-medium text-slate-700">Email</label>
-          <input name="email" type="email" required className="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2" />
+          <label className="block text-sm font-medium text-slate-300">Email</label>
+          <input name="email" type="email" required className="mt-1 w-full rounded-lg border border-navy-border px-3 py-2" />
         </div>
         <div>
-          <label className="block text-sm font-medium text-slate-700">Title</label>
-          <input name="title" className="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2" />
+          <label className="block text-sm font-medium text-slate-300">Title</label>
+          <input name="title" className="mt-1 w-full rounded-lg border border-navy-border px-3 py-2" />
         </div>
         <div>
-          <label className="block text-sm font-medium text-slate-700">Temporary password</label>
-          <input name="password" type="password" required minLength={6} className="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2" />
+          <label className="block text-sm font-medium text-slate-300">Temporary password</label>
+          <input name="password" type="password" required minLength={6} className="mt-1 w-full rounded-lg border border-navy-border px-3 py-2" />
         </div>
       </div>
-      <label className="flex items-center gap-2 text-sm text-slate-700">
+      <label className="flex items-center gap-2 text-sm text-slate-300">
         <input name="isCompanyAdmin" type="checkbox" />
         Company admin
       </label>
-      <button type="submit" disabled={loading} className="rounded-lg bg-indigo-600 px-4 py-2 text-sm font-medium text-white hover:bg-indigo-700 disabled:opacity-50">
+      <button type="submit" disabled={loading} className="rounded-lg bg-brand px-4 py-2 text-sm font-medium text-white hover:bg-brand-light disabled:opacity-50">
         {loading ? "Adding..." : "Add team member"}
       </button>
     </form>
