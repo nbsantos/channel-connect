@@ -12,7 +12,9 @@ Vendor–reseller deal registration and partner discovery platform.
 - **AI search layer** — Use-case search, vendor matching, rep matching
 - **Partner portal** — Vendor content (videos, white papers, briefs)
 - **Accounts to watch** — Track accounts and get activity notifications
-- **Vendor billing** — $500/approved deal, monthly invoices, contract onboarding
+- **Vendor billing** — $5,000/year vendor membership, $500/approved deal, monthly invoices, contract onboarding
+- **Join flows** — Vendor admin, reseller admin, or individual user; domain auto-join; LinkedIn profile URL
+- **Partnerships** — Signed vs unsigned vendor/reseller listings; admin approval flow
 - **Team management** — Company admins can add team members
 - **Reseller drill-down** — Click a reseller to search accounts and register deals
 
@@ -33,6 +35,8 @@ Open [http://localhost:3000](http://localhost:3000).
 | Vendor (Ionix) | vendor@ionix.io | password123 |
 | Reseller admin (Guidepoint) | admin@guidepoint.com | password123 |
 | Reseller rep (Guidepoint) | rep@guidepoint.com | password123 |
+
+**Other flows:** Register at `/register` — individual users (work email + LinkedIn), or new vendor/reseller admins. Ionix and Guidepoint are pre-seeded as approved partners. New vendors complete `/vendor/onboarding` ($5k annual fee, then deal contract).
 
 ## Stack
 
@@ -66,6 +70,15 @@ Requires Docker, kubectl, and a local cluster (Docker Desktop Kubernetes, kind, 
 
 # Force a clean Docker build if styles still look stale
 NO_CACHE=1 ./scripts/k8s-deploy.sh
+
+# Wipe SQLite PVC and re-seed demo accounts (after schema/seed updates)
+RESEED=1 ./scripts/k8s-deploy.sh
+
+# Tear down the cluster deployment
+./scripts/k8s-cleanup.sh
+
+# Stop the app but keep SQLite data and config
+WORKLOAD_ONLY=1 ./scripts/k8s-cleanup.sh
 ```
 
 Or step by step:
@@ -97,5 +110,6 @@ kubectl rollout status deployment/channel-connect -n channel-connect
 - SQLite data is stored on a PersistentVolumeClaim (`channel-connect-data`).
 - Set `SEED_DATABASE=true` in `k8s/configmap.yaml` to seed demo data on first boot.
 - Change `SESSION_SECRET` in `k8s/secret.yaml` before any real deployment.
-- Re-seed: delete the PVC and redeploy (`kubectl delete pvc channel-connect-data -n channel-connect`).
+- Re-seed demo data: `RESEED=1 ./scripts/k8s-deploy.sh` (deletes the PVC; seed runs on next pod start).
+- Manual re-seed: `kubectl delete pvc channel-connect-data -n channel-connect` then redeploy.
 # channel-connect
