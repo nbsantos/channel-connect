@@ -3,7 +3,7 @@ set -euo pipefail
 
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 NAMESPACE="${NAMESPACE:-channel-connect}"
-PVC_NAME="${PVC_NAME:-channel-connect-data}"
+PVC_NAME="${PVC_NAME:-channel-connect-postgres}"
 WORKLOAD_ONLY="${WORKLOAD_ONLY:-}"
 DELETE_IMAGES="${DELETE_IMAGES:-}"
 IMAGE_NAME="${IMAGE_NAME:-channel-connect}"
@@ -13,13 +13,13 @@ usage() {
 Tear down Channel Connect from a local Kubernetes cluster.
 
 Usage:
-  ./scripts/k8s-cleanup.sh              Remove all manifests (deployment, service, PVC, config, namespace)
-  WORKLOAD_ONLY=1 ./scripts/k8s-cleanup.sh   Stop the app only; keep namespace, PVC, and config
+  ./scripts/k8s-cleanup.sh              Remove all manifests (app, Postgres, config, namespace)
+  WORKLOAD_ONLY=1 ./scripts/k8s-cleanup.sh   Stop the app only; keep Postgres and config
   DELETE_IMAGES=1 ./scripts/k8s-cleanup.sh Also remove local Docker images tagged $IMAGE_NAME
 
 Environment:
   NAMESPACE       Kubernetes namespace (default: channel-connect)
-  WORKLOAD_ONLY   If set, delete deployment + service only
+  WORKLOAD_ONLY   If set, delete the app deployment + service only
   DELETE_IMAGES   If set, remove local $IMAGE_NAME:* Docker images after cleanup
 EOF
 }
@@ -50,7 +50,7 @@ fi
 echo ""
 echo "Channel Connect Kubernetes cleanup complete."
 if [ -n "$WORKLOAD_ONLY" ]; then
-  echo "  Namespace $NAMESPACE and PVC $PVC_NAME were left in place."
+  echo "  Namespace $NAMESPACE and Postgres PVC $PVC_NAME were left in place."
   echo "  Redeploy: ./scripts/k8s-deploy.sh"
 else
   echo "  Redeploy: ./scripts/k8s-deploy.sh"
