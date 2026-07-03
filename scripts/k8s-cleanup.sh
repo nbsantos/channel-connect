@@ -37,7 +37,7 @@ if [ -n "$WORKLOAD_ONLY" ]; then
   kubectl delete service/channel-connect -n "$NAMESPACE" --ignore-not-found --wait=true
 else
   echo "==> Removing all Channel Connect Kubernetes resources"
-  kubectl delete -k k8s/ --ignore-not-found --wait=true
+  kubectl delete -k k8s/overlays/local/ --ignore-not-found --wait=true
 fi
 
 if [ -n "$DELETE_IMAGES" ]; then

@@ -6,11 +6,10 @@ metadata:
   labels:
     app: channel-connect
 spec:
-  type: NodePort
+  type: ClusterIP
   selector:
     app: channel-connect
   ports:
     - name: http
       port: 80
       targetPort: http
-      nodePort: 30080

@@ -1,0 +1,8 @@
+apiVersion: networking.gke.io/v1
+kind: ManagedCertificate
+metadata:
+  name: channel-connect-cert
+  namespace: channel-connect
+spec:
+  domains:
+    - app.channel-connect.com

@@ -55,7 +55,7 @@ if [ "$CLUSTER_TYPE" != "skip-load" ]; then
 fi
 
 echo "==> Applying Kubernetes manifests"
-kubectl apply -k k8s/
+kubectl apply -k k8s/overlays/local/
 
 echo "==> Updating deployment to image $FULL_IMAGE"
 kubectl set image deployment/channel-connect \
@@ -68,9 +68,14 @@ kubectl annotate deployment/channel-connect \
   channel-connect.io/image-tag="$IMAGE_TAG" \
   --overwrite
 
-echo "==> Rolling out new pods"
-kubectl rollout restart deployment/channel-connect -n "$NAMESPACE"
-kubectl rollout status deployment/channel-connect -n "$NAMESPACE" --timeout=180s
+echo "==> Waiting for rollout"
+if ! kubectl rollout status deployment/channel-connect -n "$NAMESPACE" --timeout=300s; then
+  echo "==> Rollout failed — pod status:" >&2
+  kubectl get pods -n "$NAMESPACE" -l app=channel-connect -o wide >&2 || true
+  kubectl describe pods -n "$NAMESPACE" -l app=channel-connect 2>&1 | tail -50 >&2 || true
+  kubectl logs -n "$NAMESPACE" -l app=channel-connect --tail=80 --all-containers=true 2>&1 | tail -80 >&2 || true
+  exit 1
+fi
 
 echo ""
 echo "Channel Connect is deployed."

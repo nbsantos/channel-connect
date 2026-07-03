@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: channel-connect-config
+  namespace: channel-connect
+data:
+  SEED_DATABASE: "false"

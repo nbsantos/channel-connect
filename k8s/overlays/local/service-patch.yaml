@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: channel-connect
+  namespace: channel-connect
+spec:
+  type: NodePort
+  ports:
+    - name: http
+      port: 80
+      targetPort: http
+      nodePort: 30080
