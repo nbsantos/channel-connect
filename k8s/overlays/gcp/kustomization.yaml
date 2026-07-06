@@ -10,4 +10,3 @@ resources:
 patches:
   - path: deployment-patch.yaml
   - path: configmap-patch.yaml
-  - path: pvc-patch.yaml

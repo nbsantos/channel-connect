@@ -9,3 +9,23 @@ spec:
       containers:
         - name: channel-connect
           imagePullPolicy: Always
+        - name: cloud-sql-proxy
+          image: gcr.io/cloud-sql-connectors/cloud-sql-proxy:2.14.3
+          args:
+            - "--structured-logs"
+            - "--address=127.0.0.1"
+            - "--port=5432"
+            # Replaced by gcp-deploy.sh with PROJECT:REGION:INSTANCE
+            - "CLOUDSQL_CONNECTION_NAME"
+          securityContext:
+            runAsNonRoot: true
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop: ["ALL"]
+          resources:
+            requests:
+              cpu: 50m
+              memory: 64Mi
+            limits:
+              cpu: 250m
+              memory: 256Mi

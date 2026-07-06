@@ -42,8 +42,7 @@ COPY --from=builder /app/next.config.ts ./
 COPY docker/entrypoint.sh /entrypoint.sh
 
 RUN chmod +x /entrypoint.sh \
-  && mkdir -p /data \
-  && chown -R nextjs:nodejs /app /data
+  && chown -R nextjs:nodejs /app
 
 USER nextjs
 EXPOSE 3000

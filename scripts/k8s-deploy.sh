@@ -9,13 +9,15 @@ NO_CACHE="${NO_CACHE:-}"
 RESEED="${RESEED:-}"
 CLUSTER_TYPE="${CLUSTER_TYPE:-auto}"
 NAMESPACE="${NAMESPACE:-channel-connect}"
-PVC_NAME="${PVC_NAME:-channel-connect-data}"
+PVC_NAME="${PVC_NAME:-channel-connect-postgres}"
 
 cd "$ROOT"
 
 if [ -n "$RESEED" ]; then
-  echo "==> RESEED=1: removing PVC $PVC_NAME (fresh demo data on next pod start)"
-  kubectl delete pvc "$PVC_NAME" -n "$NAMESPACE" --ignore-not-found
+  echo "==> RESEED=1: resetting local Postgres PVC (fresh demo data on next pod start)"
+  kubectl delete deployment/channel-connect -n "$NAMESPACE" --ignore-not-found --wait=true
+  kubectl delete deployment/postgres -n "$NAMESPACE" --ignore-not-found --wait=true
+  kubectl delete pvc "$PVC_NAME" -n "$NAMESPACE" --ignore-not-found --wait=true
 fi
 
 BUILD_FLAGS=()
@@ -86,7 +88,7 @@ echo "  NodePort:       http://localhost:30080"
 echo "  Port-forward:   kubectl port-forward -n $NAMESPACE svc/channel-connect 3000:80"
 echo "                  → http://localhost:3000"
 echo ""
-echo "Demo logins (seeded on first boot when SEED_DATABASE=true in k8s/configmap.yaml):"
+echo "Demo logins (seeded when the database is empty and SEED_DATABASE=true):"
 echo "  Vendor admin (Ionix)          vendor@ionix.io / password123"
 echo "  Reseller admin (Guidepoint)   admin@guidepoint.com / password123"
 echo "  Reseller rep (Guidepoint)     rep@guidepoint.com / password123"

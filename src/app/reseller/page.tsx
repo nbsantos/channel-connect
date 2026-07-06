@@ -53,8 +53,8 @@ export default async function ResellerHomePage() {
   return (
     <div className="space-y-8">
       <div>
-        <h1 className="text-2xl font-bold text-slate-100">Reseller Home</h1>
-        <p className="mt-1 text-sm text-slate-400">Welcome, {user.name}. Manage accounts and inbound deal registrations.</p>
+        <h1 className="text-2xl font-bold text-slate-900">Reseller Home</h1>
+        <p className="mt-1 text-sm text-slate-600">Welcome, {user.name}. Manage accounts and inbound deal registrations.</p>
       </div>
 
       <div className="grid gap-4 sm:grid-cols-3">
@@ -65,7 +65,7 @@ export default async function ResellerHomePage() {
 
       {user.isCompanyAdmin && (
         <Card title="Upload customer / rep mapping">
-          <p className="mb-4 text-sm text-slate-400">
+          <p className="mb-4 text-sm text-slate-600">
             Add accounts one at a time. Vendors can only search individual accounts — no bulk export.
           </p>
           <AccountUploadForm companyId={user.companyId} reps={await prisma.user.findMany({
@@ -88,11 +88,11 @@ export default async function ResellerHomePage() {
         {deals.length === 0 ? (
           <p className="text-sm text-slate-500">No deals yet.</p>
         ) : (
-          <ul className="divide-y divide-slate-800">
+          <ul className="divide-y divide-navy-border">
             {deals.map((deal) => (
               <li key={deal.id} className="flex items-center justify-between py-3">
                 <div>
-                  <Link href={`/deals/${deal.id}`} className="font-medium text-brand-light hover:underline">
+                  <Link href={`/deals/${deal.id}`} className="font-medium text-brand hover:underline">
                     {deal.title}
                   </Link>
                   <p className="text-sm text-slate-500">

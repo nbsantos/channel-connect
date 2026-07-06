@@ -4,6 +4,12 @@ import bcrypt from "bcryptjs";
 const prisma = new PrismaClient();
 
 async function main() {
+  const existing = await prisma.company.count();
+  if (existing > 0 && process.env.FORCE_SEED !== "true") {
+    console.log("Database already has data; skipping seed (set FORCE_SEED=true to reset).");
+    return;
+  }
+
   await prisma.invoiceLineItem.deleteMany();
   await prisma.invoice.deleteMany();
   await prisma.partnership.deleteMany();

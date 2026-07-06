@@ -25,17 +25,17 @@ export function CompanyEditForm({ company }: { company: { id: string; name: stri
 
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
-      {message && <p className="text-sm text-green-400">{message}</p>}
+      {message && <p className="text-sm text-green-700">{message}</p>}
       <div>
-        <label className="block text-sm font-medium text-slate-300">Company name</label>
+        <label className="block text-sm font-medium text-slate-700">Company name</label>
         <input name="name" defaultValue={company.name} required className="mt-1 w-full rounded-lg border border-navy-border px-3 py-2" />
       </div>
       <div>
-        <label className="block text-sm font-medium text-slate-300">Description</label>
+        <label className="block text-sm font-medium text-slate-700">Description</label>
         <textarea name="description" defaultValue={company.description} rows={3} className="mt-1 w-full rounded-lg border border-navy-border px-3 py-2" />
       </div>
       <div>
-        <label className="block text-sm font-medium text-slate-300">Website</label>
+        <label className="block text-sm font-medium text-slate-700">Website</label>
         <input name="website" defaultValue={company.website} className="mt-1 w-full rounded-lg border border-navy-border px-3 py-2" />
       </div>
       <button type="submit" className="rounded-lg bg-brand px-4 py-2 text-sm font-medium text-white hover:bg-brand-light">

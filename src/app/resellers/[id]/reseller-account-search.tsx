@@ -66,12 +66,12 @@ export function ResellerAccountSearch({ resellerId, resellerName, vendorCompanyI
       </form>
 
       {results.length > 0 && !selected && (
-        <ul className="divide-y divide-slate-800 rounded-lg border border-navy-border">
+        <ul className="divide-y divide-navy-border rounded-lg border border-navy-border">
           {results.map((r) => (
             <li key={r.accountId} className="flex items-center justify-between p-4">
               <div>
-                <p className="font-medium text-slate-100">{r.accountName}</p>
-                <p className="text-sm text-slate-400">
+                <p className="font-medium text-slate-900">{r.accountName}</p>
+                <p className="text-sm text-slate-600">
                   Rep: {r.rep.name}{r.rep.title ? ` · ${r.rep.title}` : ""}
                 </p>
                 {r.useCase && <p className="text-xs text-slate-500">{r.useCase}</p>}
@@ -79,7 +79,7 @@ export function ResellerAccountSearch({ resellerId, resellerName, vendorCompanyI
               <button
                 type="button"
                 onClick={() => setSelected({ accountId: r.accountId, accountName: r.accountName, repId: r.rep.id, repName: r.rep.name })}
-                className="rounded-md bg-brand-surface px-3 py-1.5 text-sm text-brand-light hover:bg-brand-dark"
+                className="rounded-md bg-brand-surface px-3 py-1.5 text-sm text-brand hover:bg-brand hover:text-white"
               >
                 Select
               </button>
@@ -90,11 +90,11 @@ export function ResellerAccountSearch({ resellerId, resellerName, vendorCompanyI
 
       {selected && (
         <div className="rounded-lg border border-brand-dark bg-brand-surface p-4">
-          <p className="text-sm font-medium text-brand-light">
+          <p className="text-sm font-medium text-brand">
             Selected: {selected.accountName} at {resellerName}
           </p>
-          <p className="text-sm text-brand-light">Rep: {selected.repName}</p>
-          <button type="button" onClick={() => setSelected(null)} className="mt-2 text-xs text-brand-light hover:underline">
+          <p className="text-sm text-brand">Rep: {selected.repName}</p>
+          <button type="button" onClick={() => setSelected(null)} className="mt-2 text-xs text-brand hover:underline">
             Change selection
           </button>
         </div>

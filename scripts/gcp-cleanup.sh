@@ -11,7 +11,10 @@ NAMESPACE="${NAMESPACE:-channel-connect}"
 WORKLOAD_ONLY="${WORKLOAD_ONLY:-}"
 DELETE_CLUSTER="${DELETE_CLUSTER:-}"
 DELETE_REGISTRY="${DELETE_REGISTRY:-}"
+DELETE_SQL="${DELETE_SQL:-}"
 ARTIFACT_REPO="${ARTIFACT_REPO:-channel-connect}"
+CLOUDSQL_INSTANCE="${CLOUDSQL_INSTANCE:-channel-connect-db}"
+GSA_NAME="${GSA_NAME:-channel-connect-gsa}"
 
 usage() {
   cat <<EOF
@@ -20,14 +23,15 @@ Remove Channel Connect from Google Kubernetes Engine.
 Usage:
   GCP_PROJECT_ID=my-project ./scripts/gcp-cleanup.sh
   WORKLOAD_ONLY=1 GCP_PROJECT_ID=my-project ./scripts/gcp-cleanup.sh
-  DELETE_CLUSTER=1 GCP_PROJECT_ID=my-project ./scripts/gcp-cleanup.sh
+  DELETE_CLUSTER=1 DELETE_SQL=1 GCP_PROJECT_ID=my-project ./scripts/gcp-cleanup.sh
 
 Environment:
-  GCP_PROJECT_ID   Google Cloud project ID (required for cluster/registry cleanup)
+  GCP_PROJECT_ID   Google Cloud project ID (required for cluster/SQL/registry cleanup)
   GCP_REGION       Region (default: us-central1)
   GKE_CLUSTER      Cluster name (default: channel-connect)
-  WORKLOAD_ONLY    Delete deployment + service only; keep PVC and config
+  WORKLOAD_ONLY    Delete deployment + service only; keep Ingress/config
   DELETE_CLUSTER   Also delete the GKE Autopilot cluster
+  DELETE_SQL       Also delete the Cloud SQL instance (irreversible)
   DELETE_REGISTRY  Also delete the Artifact Registry repository
 EOF
 }
@@ -46,6 +50,17 @@ if [ -n "$WORKLOAD_ONLY" ]; then
 else
   echo "==> Removing all Channel Connect Kubernetes resources"
   kubectl delete -k "$KUSTOMIZE_DIR" --ignore-not-found --wait=true
+fi
+
+if [ -n "$DELETE_SQL" ]; then
+  if [ -z "$GCP_PROJECT_ID" ]; then
+    echo "Error: GCP_PROJECT_ID required for DELETE_SQL" >&2
+    exit 1
+  fi
+  echo "==> Deleting Cloud SQL instance $CLOUDSQL_INSTANCE"
+  gcloud sql instances delete "$CLOUDSQL_INSTANCE" \
+    --project="$GCP_PROJECT_ID" \
+    --quiet || true
 fi
 
 if [ -n "$DELETE_CLUSTER" ]; then
@@ -74,3 +89,6 @@ fi
 
 echo ""
 echo "GCP cleanup complete."
+if [ -z "$DELETE_SQL" ]; then
+  echo "  Cloud SQL instance was left in place (set DELETE_SQL=1 to remove it)."
+fi

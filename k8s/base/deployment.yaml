@@ -8,7 +8,7 @@ metadata:
 spec:
   replicas: 1
   strategy:
-    type: Recreate
+    type: RollingUpdate
   selector:
     matchLabels:
       app: channel-connect
@@ -19,6 +19,7 @@ spec:
       annotations:
         channel-connect.io/deployed-at: "pending"
     spec:
+      serviceAccountName: channel-connect
       securityContext:
         fsGroup: 1001
       containers:
@@ -33,9 +34,6 @@ spec:
                 name: channel-connect-config
             - secretRef:
                 name: channel-connect-secrets
-          volumeMounts:
-            - name: data
-              mountPath: /data
           startupProbe:
             httpGet:
               path: /
@@ -62,7 +60,3 @@ spec:
             limits:
               cpu: "1"
               memory: 1Gi
-      volumes:
-        - name: data
-          persistentVolumeClaim:
-            claimName: channel-connect-data

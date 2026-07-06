@@ -37,9 +37,9 @@ export function ContractForm({ feeCents, defaultEmail }: { feeCents: number; def
 
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
-      {error && <p className="rounded-md bg-red-950/60 p-3 text-sm text-red-300">{error}</p>}
-      <div className="rounded-lg border border-navy-border bg-navy-elevated p-4 text-sm text-slate-300">
-        <p className="font-medium text-slate-100">Deal registration agreement</p>
+      {error && <p className="rounded-md bg-red-50 p-3 text-sm text-red-700">{error}</p>}
+      <div className="rounded-lg border border-navy-border bg-navy-elevated p-4 text-sm text-slate-700">
+        <p className="font-medium text-slate-900">Deal registration agreement</p>
         <ul className="mt-2 list-inside list-disc space-y-1">
           <li>{formatCents(feeCents)} per approved deal registration generated through Channel Connect</li>
           <li>Invoiced monthly based on approved registrations</li>
@@ -48,10 +48,10 @@ export function ContractForm({ feeCents, defaultEmail }: { feeCents: number; def
         </ul>
       </div>
       <div>
-        <label className="block text-sm font-medium text-slate-300">Billing email</label>
+        <label className="block text-sm font-medium text-slate-700">Billing email</label>
         <input name="billingEmail" type="email" defaultValue={defaultEmail} required className="mt-1 w-full rounded-lg border border-navy-border px-3 py-2" />
       </div>
-      <label className="flex items-start gap-2 text-sm text-slate-300">
+      <label className="flex items-start gap-2 text-sm text-slate-700">
         <input name="accepted" type="checkbox" required className="mt-1" />
         <span>I agree to the vendor terms and authorize monthly invoicing for approved deal registrations.</span>
       </label>

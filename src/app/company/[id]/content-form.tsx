@@ -28,10 +28,10 @@ export function CompanyContentForm({ companyId }: { companyId: string }) {
 
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
-      {message && <p className="text-sm text-green-400">{message}</p>}
+      {message && <p className="text-sm text-green-700">{message}</p>}
       <div className="grid gap-4 sm:grid-cols-3">
         <div>
-          <label className="block text-sm font-medium text-slate-300">Type</label>
+          <label className="block text-sm font-medium text-slate-700">Type</label>
           <select name="type" required className="mt-1 w-full rounded-lg border border-navy-border px-3 py-2">
             <option value="video">Video</option>
             <option value="whitepaper">White paper</option>
@@ -39,11 +39,11 @@ export function CompanyContentForm({ companyId }: { companyId: string }) {
           </select>
         </div>
         <div>
-          <label className="block text-sm font-medium text-slate-300">Title</label>
+          <label className="block text-sm font-medium text-slate-700">Title</label>
           <input name="title" required className="mt-1 w-full rounded-lg border border-navy-border px-3 py-2" />
         </div>
         <div>
-          <label className="block text-sm font-medium text-slate-300">URL</label>
+          <label className="block text-sm font-medium text-slate-700">URL</label>
           <input name="url" type="url" required className="mt-1 w-full rounded-lg border border-navy-border px-3 py-2" />
         </div>
       </div>

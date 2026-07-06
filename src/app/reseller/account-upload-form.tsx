@@ -43,14 +43,14 @@ export function AccountUploadForm({ reps }: AccountUploadFormProps) {
 
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
-      {message && <p className="text-sm text-green-400">{message}</p>}
+      {message && <p className="text-sm text-green-700">{message}</p>}
       <div className="grid gap-4 sm:grid-cols-2">
         <div>
-          <label className="block text-sm font-medium text-slate-300">Account name</label>
+          <label className="block text-sm font-medium text-slate-700">Account name</label>
           <input name="accountName" required className="mt-1 w-full rounded-lg border border-navy-border px-3 py-2" />
         </div>
         <div>
-          <label className="block text-sm font-medium text-slate-300">Assigned rep</label>
+          <label className="block text-sm font-medium text-slate-700">Assigned rep</label>
           <select name="repId" required className="mt-1 w-full rounded-lg border border-navy-border px-3 py-2">
             <option value="">Select rep</option>
             {reps.map((r) => (
@@ -59,11 +59,11 @@ export function AccountUploadForm({ reps }: AccountUploadFormProps) {
           </select>
         </div>
         <div>
-          <label className="block text-sm font-medium text-slate-300">Industry</label>
+          <label className="block text-sm font-medium text-slate-700">Industry</label>
           <input name="industry" className="mt-1 w-full rounded-lg border border-navy-border px-3 py-2" />
         </div>
         <div>
-          <label className="block text-sm font-medium text-slate-300">Use case</label>
+          <label className="block text-sm font-medium text-slate-700">Use case</label>
           <input name="useCase" placeholder="e.g. cloud security, compliance" className="mt-1 w-full rounded-lg border border-navy-border px-3 py-2" />
         </div>
       </div>

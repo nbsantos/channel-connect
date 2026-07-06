@@ -129,8 +129,11 @@ export async function searchVendorsByUseCase(query: string) {
 }
 
 export async function matchRepForAccount(accountName: string, resellerId?: string) {
-  const where: { accountName: { contains: string }; resellerId?: string } = {
-    accountName: { contains: accountName },
+  const where: {
+    accountName: { contains: string; mode: "insensitive" };
+    resellerId?: string;
+  } = {
+    accountName: { contains: accountName, mode: "insensitive" },
   };
   if (resellerId) where.resellerId = resellerId;
 
@@ -169,7 +172,7 @@ export async function checkWatchedAccountChatter(userId: string) {
       const existing = await prisma.notification.findFirst({
         where: {
           userId,
-          title: { contains: watch.account.accountName },
+          title: { contains: watch.account.accountName, mode: "insensitive" },
           createdAt: { gte: new Date(Date.now() - 24 * 60 * 60 * 1000) },
         },
       });

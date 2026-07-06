@@ -5,9 +5,9 @@ namespace: channel-connect
 
 resources:
   - namespace.yaml
+  - serviceaccount.yaml
   - secret.yaml
   - configmap.yaml
-  - pvc.yaml
   - deployment.yaml
   - service.yaml
 

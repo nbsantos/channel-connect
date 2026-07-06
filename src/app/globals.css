@@ -4,61 +4,63 @@
   --color-brand: #0033cc;
   --color-brand-light: #4d7cff;
   --color-brand-dark: #002699;
-  --color-brand-surface: #0d1f4d;
-  --color-navy: #0a1020;
-  --color-navy-elevated: #111b33;
-  --color-navy-border: #1e3a6e;
+  --color-brand-surface: #dbe4f5;
+  --color-navy: #e8edf4;
+  --color-navy-elevated: #f4f6fa;
+  --color-navy-border: #c8d2e0;
 }
 
 :root {
-  color-scheme: dark;
-  --background: #0a1020;
-  --foreground: #ffffff;
-  --surface: #111b33;
-  --surface-elevated: #152040;
-  --border: #1e3a6e;
-  --border-subtle: #152040;
-  --muted: #94a3b8;
-  --accent: #4d7cff;
-  --accent-hover: #80a3ff;
+  color-scheme: light;
+  --background: #e8edf4;
+  --foreground: #0f172a;
+  --surface: #f4f6fa;
+  --surface-elevated: #f8f9fc;
+  --border: #c8d2e0;
+  --border-subtle: #dce3ee;
+  --muted: #64748b;
+  --accent: #0033cc;
+  --accent-hover: #002699;
   --brand: #0033cc;
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: var(--font-geist-sans), system-ui, sans-serif;
-}
+@layer base {
+  body {
+    background: var(--background);
+    color: var(--foreground);
+    font-family: var(--font-geist-sans), system-ui, sans-serif;
+  }
 
-input,
-textarea,
-select,
-button {
-  font: inherit;
-}
+  input,
+  textarea,
+  select,
+  button {
+    font: inherit;
+  }
 
-input:not([type="checkbox"]):not([type="radio"]),
-textarea,
-select {
-  background-color: var(--surface-elevated);
-  border-color: var(--border);
-  color: var(--foreground);
-}
+  input:not([type="checkbox"]):not([type="radio"]),
+  textarea,
+  select {
+    background-color: #ffffff;
+    border-color: var(--border);
+    color: var(--foreground);
+  }
 
-input::placeholder,
-textarea::placeholder {
-  color: #64748b;
-}
+  input::placeholder,
+  textarea::placeholder {
+    color: #94a3b8;
+  }
 
-select option {
-  background-color: #152040;
-  color: #ffffff;
-}
+  select option {
+    background-color: #ffffff;
+    color: #0f172a;
+  }
 
-a {
-  color: var(--accent);
-}
+  a {
+    color: var(--accent);
+  }
 
-a:hover {
-  color: var(--accent-hover);
+  a:hover {
+    color: var(--accent-hover);
+  }
 }

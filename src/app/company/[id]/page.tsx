@@ -32,10 +32,10 @@ export default async function CompanyPage({ params }: { params: Promise<{ id: st
       <div className="flex items-start justify-between">
         <div>
           <Badge>{companyTypeLabel(company.type)}</Badge>
-          <h1 className="mt-2 text-2xl font-bold text-slate-100">{company.name}</h1>
-          {company.description && <p className="mt-2 text-slate-400">{company.description}</p>}
+          <h1 className="mt-2 text-2xl font-bold text-slate-900">{company.name}</h1>
+          {company.description && <p className="mt-2 text-slate-600">{company.description}</p>}
           {company.website && (
-            <a href={company.website} target="_blank" rel="noreferrer" className="mt-1 inline-block text-sm text-brand-light hover:underline">
+            <a href={company.website} target="_blank" rel="noreferrer" className="mt-1 inline-block text-sm text-brand hover:underline">
               {company.website}
             </a>
           )}
@@ -65,11 +65,11 @@ export default async function CompanyPage({ params }: { params: Promise<{ id: st
       )}
 
       <Card title="Team members">
-        <ul className="divide-y divide-slate-800">
+        <ul className="divide-y divide-navy-border">
           {company.users.map((u) => (
             <li key={u.id} className="flex items-center justify-between py-3">
               <div>
-                <p className="font-medium text-slate-100">{u.name}</p>
+                <p className="font-medium text-slate-900">{u.name}</p>
                 <p className="text-sm text-slate-500">{u.title ?? u.email}</p>
               </div>
               {u.isCompanyAdmin && <Badge>Admin</Badge>}
@@ -90,12 +90,12 @@ export default async function CompanyPage({ params }: { params: Promise<{ id: st
             {company.content.length === 0 ? (
               <p className="text-sm text-slate-500">No content published yet.</p>
             ) : (
-              <ul className="divide-y divide-slate-800">
+              <ul className="divide-y divide-navy-border">
                 {company.content.map((c) => (
                   <li key={c.id} className="py-3">
                     <div className="flex items-center gap-2">
                       <Badge>{c.type}</Badge>
-                      <a href={c.url} target="_blank" rel="noreferrer" className="font-medium text-brand-light hover:underline">
+                      <a href={c.url} target="_blank" rel="noreferrer" className="font-medium text-brand hover:underline">
                         {c.title}
                       </a>
                     </div>
