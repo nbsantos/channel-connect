@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
+    "predev": "bash scripts/ensure-local-db.sh",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",

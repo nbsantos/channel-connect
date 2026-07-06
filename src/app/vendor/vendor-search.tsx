@@ -71,25 +71,25 @@ export function VendorSearch({ resellers }: VendorSearchProps) {
         </button>
       </form>
 
-      {message && <p className="text-sm text-slate-400">{message}</p>}
+      {message && <p className="text-sm text-slate-600">{message}</p>}
 
       {results.length > 0 && (
-        <ul className="divide-y divide-slate-800 rounded-lg border border-navy-border">
+        <ul className="divide-y divide-navy-border rounded-lg border border-navy-border">
           {results.map((r) => (
             <li key={r.accountId} className="flex items-start justify-between gap-4 p-4">
               <div>
-                <p className="font-medium text-slate-100">{r.accountName}</p>
+                <p className="font-medium text-slate-900">{r.accountName}</p>
                 <p className="text-sm text-slate-500">{r.reseller.name}</p>
-                <p className="mt-1 text-sm text-slate-300">
+                <p className="mt-1 text-sm text-slate-700">
                   Rep: {r.rep.name}{r.rep.title ? ` · ${r.rep.title}` : ""} · {r.rep.email}
                 </p>
                 {r.useCase && <p className="mt-1 text-xs text-slate-500">Use case: {r.useCase}</p>}
-                <p className="mt-1 text-xs text-brand-light">Match: {r.matchReason}</p>
+                <p className="mt-1 text-xs text-brand">Match: {r.matchReason}</p>
               </div>
               <button
                 type="button"
                 onClick={() => watchAccount(r.accountId)}
-                className="shrink-0 rounded-md border border-navy-border px-3 py-1.5 text-xs text-slate-300 hover:bg-brand-surface"
+                className="shrink-0 rounded-md border border-navy-border px-3 py-1.5 text-xs text-slate-700 hover:bg-brand-surface"
               >
                 Watch
               </button>

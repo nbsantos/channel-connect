@@ -21,20 +21,20 @@ export default async function ResellerDetailPage({ params }: { params: Promise<{
   return (
     <div className="space-y-6">
       <div>
-        <Link href="/vendor" className="text-sm text-brand-light hover:underline">← Back to vendor home</Link>
-        <h1 className="mt-2 text-2xl font-bold text-slate-100">{reseller.name}</h1>
-        {reseller.description && <p className="mt-1 text-sm text-slate-400">{reseller.description}</p>}
+        <Link href="/vendor" className="text-sm text-brand hover:underline">← Back to vendor home</Link>
+        <h1 className="mt-2 text-2xl font-bold text-slate-900">{reseller.name}</h1>
+        {reseller.description && <p className="mt-1 text-sm text-slate-600">{reseller.description}</p>}
       </div>
 
       {!user.company.contractSignedAt ? (
         <Card title="Contract required">
-          <p className="text-sm text-slate-400">
+          <p className="text-sm text-slate-600">
             Your company admin must sign the vendor agreement before registering deals.
           </p>
         </Card>
       ) : (
         <Card title="Find an account and register opportunity">
-          <p className="mb-4 text-sm text-slate-400">
+          <p className="mb-4 text-sm text-slate-600">
             Search one account at a time to find the mapped rep, then register a deal opportunity.
           </p>
           <ResellerAccountSearch

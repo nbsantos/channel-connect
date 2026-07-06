@@ -17,8 +17,8 @@ export default async function VendorOnboardingPage() {
   return (
     <div className="mx-auto max-w-lg space-y-6">
       <div>
-        <h1 className="text-2xl font-bold text-slate-100">Vendor onboarding</h1>
-        <p className="mt-1 text-sm text-slate-400">
+        <h1 className="text-2xl font-bold text-slate-900">Vendor onboarding</h1>
+        <p className="mt-1 text-sm text-slate-600">
           Complete membership payment and sign the deal registration agreement before registering deals.
         </p>
       </div>

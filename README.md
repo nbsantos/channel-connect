@@ -39,7 +39,7 @@ Vendor–reseller deal registration and partner discovery platform.
 
 ```bash
 # Local app
-cp .env.example .env && npm install && npm run db:up && npm run db:setup && npm run dev
+cp .env.example .env && npm install && npm run dev
 
 # Local Kubernetes
 ./scripts/k8s-deploy.sh
@@ -61,15 +61,25 @@ Script help:
 
 ## Local development
 
+Local preview uses **Docker Postgres** on `localhost:5432` — not Cloud SQL. `npm run dev` runs `predev` automatically to start Postgres (if needed), apply the schema, and seed demo data.
+
 ```bash
 cp .env.example .env
 npm install
+npm run dev
+```
+
+Or set up the database manually:
+
+```bash
 npm run db:up          # Postgres on localhost:5432
 npm run db:setup       # prisma db push + seed
 npm run dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000).
+
+If your `.env` still has the old SQLite URL (`file:./dev.db`), `predev` updates it to the local PostgreSQL URL below.
 
 Default `.env` values (from `.env.example`):
 
@@ -82,7 +92,7 @@ SESSION_SECRET="channel-connect-dev-secret-change-in-production"
 
 | Script | Purpose |
 |--------|---------|
-| `npm run dev` | Next.js dev server |
+| `npm run dev` | Next.js dev server (auto-starts local Postgres via `predev`) |
 | `npm run build` / `npm start` | Production build and start |
 | `npm run db:up` | Start local Postgres (`docker compose up -d postgres`) |
 | `npm run db:down` | Stop local Postgres |

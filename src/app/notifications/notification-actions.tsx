@@ -11,7 +11,7 @@ export function NotificationActions({ id }: { id: string }) {
   }
 
   return (
-    <button type="button" onClick={markRead} className="shrink-0 text-xs text-brand-light hover:underline">
+    <button type="button" onClick={markRead} className="shrink-0 text-xs text-brand hover:underline">
       Mark read
     </button>
   );

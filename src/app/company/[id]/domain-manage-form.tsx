@@ -50,12 +50,12 @@ export function DomainManageForm({ companyId, initialDomains }: { companyId: str
 
   return (
     <div className="space-y-4">
-      {error && <p className="rounded-md bg-red-950/60 p-3 text-sm text-red-300">{error}</p>}
-      <ul className="divide-y divide-slate-800">
+      {error && <p className="rounded-md bg-red-50 p-3 text-sm text-red-700">{error}</p>}
+      <ul className="divide-y divide-navy-border">
         {domains.map((d) => (
           <li key={d.id} className="flex items-center justify-between py-2 text-sm">
-            <span className="text-slate-200">@{d.domain}</span>
-            <button type="button" onClick={() => handleRemove(d.id)} className="text-red-400 hover:underline">
+            <span className="text-slate-800">@{d.domain}</span>
+            <button type="button" onClick={() => handleRemove(d.id)} className="text-red-700 hover:underline">
               Remove
             </button>
           </li>

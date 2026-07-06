@@ -54,11 +54,11 @@ export default async function VendorHomePage() {
     <div className="space-y-8">
       <div className="flex items-start justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-slate-100">Vendor Home</h1>
-          <p className="mt-1 text-sm text-slate-400">Welcome, {user.name}. Find resellers and register deal opportunities.</p>
+          <h1 className="text-2xl font-bold text-slate-900">Vendor Home</h1>
+          <p className="mt-1 text-sm text-slate-600">Welcome, {user.name}. Find resellers and register deal opportunities.</p>
         </div>
         {user.isCompanyAdmin && (
-          <Link href="/vendor/billing" className="text-sm text-brand-light hover:underline">
+          <Link href="/vendor/billing" className="text-sm text-brand hover:underline">
             Billing
           </Link>
         )}
@@ -80,7 +80,7 @@ export default async function VendorHomePage() {
               <li key={reseller.id}>
                 <Link
                   href={`/resellers/${reseller.id}`}
-                  className="flex items-center justify-between rounded-lg border border-navy-border px-4 py-3 text-sm font-medium text-slate-100 hover:border-brand hover:bg-brand-surface"
+                  className="flex items-center justify-between rounded-lg border border-navy-border px-4 py-3 text-sm font-medium text-slate-900 hover:border-brand hover:bg-brand-surface"
                 >
                   <span>{reseller.name}</span>
                   <Badge variant={isPartner ? "success" : "warning"}>{isPartner ? "Partner" : "Unsigned"}</Badge>
@@ -92,7 +92,7 @@ export default async function VendorHomePage() {
       </Card>
 
       <Card title="Find a reseller rep by account">
-        <p className="mb-4 text-sm text-slate-400">
+        <p className="mb-4 text-sm text-slate-600">
           Search one account at a time. Reseller customer lists are never exposed in bulk.
         </p>
         <VendorSearch resellers={resellers.map((r) => ({ id: r.id, name: r.name }))} />
@@ -111,11 +111,11 @@ export default async function VendorHomePage() {
         {pendingDeals.length === 0 ? (
           <p className="text-sm text-slate-500">No deals yet.</p>
         ) : (
-          <ul className="divide-y divide-slate-800">
+          <ul className="divide-y divide-navy-border">
             {pendingDeals.map((deal) => (
               <li key={deal.id} className="flex items-center justify-between py-3">
                 <div>
-                  <Link href={`/deals/${deal.id}`} className="font-medium text-brand-light hover:underline">
+                  <Link href={`/deals/${deal.id}`} className="font-medium text-brand hover:underline">
                     {deal.title}
                   </Link>
                   <p className="text-sm text-slate-500">

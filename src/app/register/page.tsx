@@ -53,8 +53,8 @@ export default function RegisterPage() {
       <div className="mb-8 flex justify-center">
         <Logo href="/" height={48} />
       </div>
-      <h1 className="text-2xl font-bold text-white">Join Channel Connect</h1>
-      <p className="mt-2 text-sm text-slate-400">Choose how you want to join. Work email and LinkedIn verification are required.</p>
+      <h1 className="text-2xl font-bold text-slate-900">Join Channel Connect</h1>
+      <p className="mt-2 text-sm text-slate-600">Choose how you want to join. Work email and LinkedIn verification are required.</p>
 
       <div className="mt-6 grid gap-2 sm:grid-cols-3">
         {(
@@ -70,8 +70,8 @@ export default function RegisterPage() {
             onClick={() => setJoinMode(mode)}
             className={`rounded-lg border px-3 py-3 text-left text-sm transition ${
               joinMode === mode
-                ? "border-brand bg-brand-surface text-white"
-                : "border-navy-border text-slate-400 hover:border-slate-600"
+                ? "border-brand bg-brand-surface text-brand-dark"
+                : "border-navy-border text-slate-600 hover:border-slate-300"
             }`}
           >
             <span className="font-medium">{label}</span>
@@ -81,13 +81,13 @@ export default function RegisterPage() {
       </div>
 
       <form onSubmit={handleSubmit} className="mt-8 space-y-4">
-        {error && <p className="rounded-md bg-red-950/60 p-3 text-sm text-red-300">{error}</p>}
+        {error && <p className="rounded-md bg-red-50 p-3 text-sm text-red-700">{error}</p>}
         <div>
-          <label className="block text-sm font-medium text-slate-300">Full name</label>
+          <label className="block text-sm font-medium text-slate-700">Full name</label>
           <input name="name" required className="mt-1 w-full rounded-lg border border-navy-border px-3 py-2" />
         </div>
         <div>
-          <label className="block text-sm font-medium text-slate-300">Work email</label>
+          <label className="block text-sm font-medium text-slate-700">Work email</label>
           <input name="email" type="email" required className="mt-1 w-full rounded-lg border border-navy-border px-3 py-2" />
           <p className="mt-1 text-xs text-slate-500">
             {isAdmin
@@ -96,7 +96,7 @@ export default function RegisterPage() {
           </p>
         </div>
         <div>
-          <label className="block text-sm font-medium text-slate-300">LinkedIn profile URL</label>
+          <label className="block text-sm font-medium text-slate-700">LinkedIn profile URL</label>
           <input
             name="linkedInUrl"
             type="url"
@@ -106,30 +106,30 @@ export default function RegisterPage() {
           />
         </div>
         <div>
-          <label className="block text-sm font-medium text-slate-300">Password</label>
+          <label className="block text-sm font-medium text-slate-700">Password</label>
           <input name="password" type="password" required minLength={6} className="mt-1 w-full rounded-lg border border-navy-border px-3 py-2" />
         </div>
         <div className="grid gap-4 sm:grid-cols-2">
           <div>
-            <label className="block text-sm font-medium text-slate-300">Title</label>
+            <label className="block text-sm font-medium text-slate-700">Title</label>
             <input name="title" className="mt-1 w-full rounded-lg border border-navy-border px-3 py-2" />
           </div>
           <div>
-            <label className="block text-sm font-medium text-slate-300">Location</label>
+            <label className="block text-sm font-medium text-slate-700">Location</label>
             <input name="location" className="mt-1 w-full rounded-lg border border-navy-border px-3 py-2" />
           </div>
         </div>
 
         {isAdmin && (
           <div>
-            <label className="block text-sm font-medium text-slate-300">Company name</label>
+            <label className="block text-sm font-medium text-slate-700">Company name</label>
             <input name="companyName" required={isAdmin} className="mt-1 w-full rounded-lg border border-navy-border px-3 py-2" />
           </div>
         )}
 
         {joinMode === "vendor_admin" && (
           <>
-            <label className="flex items-start gap-2 text-sm text-slate-300">
+            <label className="flex items-start gap-2 text-sm text-slate-700">
               <input name="inSecuritySpace" type="checkbox" required className="mt-1" />
               <span>Our company operates in the security space and is listed on LinkedIn.</span>
             </label>
@@ -148,8 +148,8 @@ export default function RegisterPage() {
         </button>
       </form>
 
-      <p className="mt-6 text-center text-sm text-slate-400">
-        Already have an account? <Link href="/login" className="text-brand-light hover:underline">Log in</Link>
+      <p className="mt-6 text-center text-sm text-slate-600">
+        Already have an account? <Link href="/login" className="text-brand hover:underline">Log in</Link>
       </p>
     </div>
   );
